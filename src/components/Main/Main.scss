@@ -1,0 +1,19 @@
+.main {
+  display: flex;
+  overflow-y: unset;
+  height: 100vh;
+
+  .listAdd {
+    width: 20%;
+    margin: 1%;
+  }
+
+  .map {
+    position: relative;
+    height: 230vh;
+    width: 80%;
+    background-image: url("got-map.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
