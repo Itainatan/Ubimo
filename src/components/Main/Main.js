@@ -30,9 +30,9 @@ class Main extends Component {
                             <div style={{ position: "absolute", top: `${ad.coordinates.y}px`, left: `${ad.coordinates.x}px` }}>
                                 {
                                     ad.type === "IMAGE" ?
-                                        <img alt="a" src={ad.creative.url} width="400px" height="400px" />
+                                        <img alt="a" src={ad.creative.url} width="100px" height="100px" />
                                         :
-                                        <iframe title="aa" src={ad.creative.url} width="400px" height="400px" />
+                                        <iframe title="aa" src={ad.creative.url} width="100px" height="100px" />
                                 }
                             </div>
                         )
