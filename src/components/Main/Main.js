@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import History from "../History/History";
 import { adDispatcher } from 'ubimo-fed-home-assigment';
+import ReactPlayer from "react-player";
 
 class Main extends Component {
     constructor(props) {
@@ -13,8 +14,7 @@ class Main extends Component {
     componentDidMount() {
         adDispatcher.adEvents$
             .subscribe((evt) => {
-                console.log(evt)
-                this.setState({ ads: [...this.state.ads, evt] })
+                this.setState({ ads: [...this.state.ads, { evt, startTime: new Date().getTime(), endTime: new Date().getTime() + 5, show: true }] })
             })
     }
 
@@ -22,17 +22,17 @@ class Main extends Component {
         return (
             <div className="main">
                 <div className="listAdd">
-                    <History />
+                    <History ads={this.state.ads} />
                 </div>
                 <div className="map">
                     {this.state.ads.map(ad => {
                         return (
-                            <div style={{ position: "absolute", top: `${ad.coordinates.y}px`, left: `${ad.coordinates.x}px` }}>
+                            <div style={{ position: "absolute", top: `${ad.evt.coordinates.y}px`, left: `${ad.evt.coordinates.x}px` }}>
                                 {
-                                    ad.type === "IMAGE" ?
-                                        <img alt="a" src={ad.creative.url} width="100px" height="100px" />
+                                    ad.evt.type === "IMAGE" ?
+                                        <img alt={ad.evt.creative.name} src={ad.evt.creative.url} width="80px" height="80px" />
                                         :
-                                        <iframe title="aa" src={ad.creative.url} width="100px" height="100px" />
+                                        <ReactPlayer url={ad.evt.creative.url} width="100px" height="100px" muted playing/>
                                 }
                             </div>
                         )

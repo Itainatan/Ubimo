@@ -10,10 +10,21 @@
 
   .map {
     position: relative;
-    height: 230vh;
+    height: 250vh;
     width: 80%;
     background-image: url("got-map.png");
     background-size: cover;
     background-repeat: no-repeat;
   }
+}
+
+span {
+  margin: 2px;
+  font-size: 15px;
+}
+
+.ad {
+  margin: 2px;
+  border: 1px solid black;
+  text-align: left;
 }
