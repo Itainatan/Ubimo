@@ -8,19 +8,20 @@ class History extends Component {
         this.state = {
             startTime: null,
             endTime: null,
-            list: []
+            list: [],
+            listSort: []
         };
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.ads && prevProps.ads && !_.isEqual(this.props.ads, prevProps.ads)) {
-            let adsSort = this.props.ads.sort((a, b) => b.startTime - a.startTime)
+            let adsSort = this.props.ads
             if (this.state.startTime || this.state.endTime) {
                 adsSort = adsSort.filter(ad => {
                     return (this.state.startTime && ad.startTime > this.state.startTime) || (this.state.endTime && ad.endTime < this.state.endTime)
                 })
             }
-            this.setState({ list: adsSort })
+            this.setState({ list: this.props.ads, listSort: adsSort })
         }
         if (!_.isEqual(this.state.startTime, prevState.startTime) || !_.isEqual(this.state.endTime, prevState.endTime)) {
             const adsFilter = this.state.list.filter(ad => {
@@ -30,6 +31,7 @@ class History extends Component {
             })
             this.setState({ list: adsFilter })
         }
+        else { this.state.startTime === "" && this.state.endTime === "" && this.setState({ listSort: this.state.list })}
     }
 
     render() {
@@ -38,22 +40,16 @@ class History extends Component {
                 <h1> Ads </h1>
                 <div>
                     <input
-                        style={{ margin: "20px" }}
                         placeholder="Enter start time"
                         onChange={(e) => { this.setState({ startTime: e.target.value }) }}
-                        value={this.state.email}
-                        className="form-control"
                     ></input>
                     <input
-                        style={{ margin: "20px" }}
                         placeholder="Enter end time"
                         onChange={e => this.setState({ endTime: e.target.value })}
-                        value={this.state.email}
-                        className="form-control"
                     ></input>
                 </div>
                 <div>
-                    {this.state.list && this.state.list.map((ad, index) => <Ad ad={ad} />)}
+                    {this.state.listSort && this.state.listSort.map(ad => <Ad ad={ad} />)}
                 </div>
             </div>
         );
