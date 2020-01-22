@@ -14,20 +14,16 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        const id = this.state.id
         adDispatcher.adEvents$
             .subscribe((evt) => {
+                const { id } = this.state
                 this.setState({
                     ads: [...this.state.ads, { evt, id: id, startTime: new Date().getTime(), endTime: new Date().getTime() + 5, show: true }],
-                    id: id + 1,
-                    intervalId: setInterval(() => this.setShow(id), 5000)
+                    id: this.state.id + 1,
+                    intervalId: setInterval(() => { this.setShow(id) }, 5000)
                 })
             })
     }
-
-    componentWillUnmount(){
-        clearInterval(this.state.intervalId)
-      }
 
     setShow = (id) => {
         this.setState({
@@ -35,11 +31,17 @@ class Main extends Component {
         });
     }
 
+    componentWillUnmount() {
+        clearInterval(this.state.intervalId)
+    }
+
+    sort = (a, b) => b.startTime - a.startTime
+
     render() {
         return (
             <div className="main">
                 <div className="listAdd">
-                    <History ads={this.state.ads.sort((a, b) => b.startTime - a.startTime)} />
+                    <History ads={this.state.ads.sort((a, b) => this.sort(a, b))} />
                 </div>
                 <div className="map">
                     {this.state.ads.map(ad => {

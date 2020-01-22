@@ -15,13 +15,14 @@ class History extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.ads && prevProps.ads && !_.isEqual(this.props.ads, prevProps.ads)) {
-            let adsSort = this.props.ads
+            let adsSort = _.cloneDeep(this.props.ads)
+            const { ads } = _.cloneDeep(this.props)
             if (this.state.startTime || this.state.endTime) {
                 adsSort = adsSort.filter(ad => {
                     return (this.state.startTime && ad.startTime > this.state.startTime) || (this.state.endTime && ad.endTime < this.state.endTime)
                 })
             }
-            this.setState({ list: this.props.ads, listSort: adsSort })
+            this.setState({ list: ads, listSort: adsSort })
         }
         if (!_.isEqual(this.state.startTime, prevState.startTime) || !_.isEqual(this.state.endTime, prevState.endTime)) {
             const adsFilter = this.state.list.filter(ad => {
@@ -31,7 +32,7 @@ class History extends Component {
             })
             this.setState({ list: adsFilter })
         }
-        else { this.state.startTime === "" && this.state.endTime === "" && this.setState({ listSort: this.state.list })}
+        else { this.state.startTime === "" && this.state.endTime === "" && this.setState({ listSort: this.state.list }) }
     }
 
     render() {
@@ -40,11 +41,11 @@ class History extends Component {
                 <h1> Ads </h1>
                 <div>
                     <input
-                        placeholder="Enter start time"
+                        placeholder="Filter Start"
                         onChange={(e) => { this.setState({ startTime: e.target.value }) }}
                     ></input>
                     <input
-                        placeholder="Enter end time"
+                        placeholder="Filter End"
                         onChange={e => this.setState({ endTime: e.target.value })}
                     ></input>
                 </div>
